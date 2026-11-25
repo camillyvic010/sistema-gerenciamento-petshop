@@ -4,17 +4,44 @@
  */
 package br.ufmt.gerenciamentopetshop.ui;
 
+import br.ufmt.gerenciamentopetshop.service.ClienteService;
+import br.ufmt.gerenciamentopetshop.service.ServiceAbstractFactory;
+import br.ufmt.gerenciamentopetshop.service.dto.ClienteDTO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author aconf
  */
 public class ClienteJPanel extends javax.swing.JPanel {
 
+    private ClienteService service = ServiceAbstractFactory.criarClienteService();
     /**
      * Creates new form ClienteJPanel
      */
     public ClienteJPanel() {
         initComponents();
+        carregarTabela();
+    }
+    
+    private void carregarTabela() {
+        List<ClienteDTO> lista = service.buscarTodos();
+        
+        DefaultTableModel dfm = (DefaultTableModel) clienteJTable.getModel();
+        
+        dfm.setNumRows(0);
+        
+        for (ClienteDTO dto : lista) {
+            Object[] linha = new Object[4];
+            
+            linha[0] = dto.getId();
+            linha[1] = dto.getNome();
+            linha[2] = dto.getTelefone();
+            linha[3] = dto.getCpf();
+            
+            dfm.addRow(linha);
+        }
     }
 
     /**
@@ -44,6 +71,7 @@ public class ClienteJPanel extends javax.swing.JPanel {
         idJLabel.setText("Id:");
 
         idJTextField.setEditable(false);
+        idJTextField.setEnabled(false);
         idJTextField.addActionListener(this::idJTextFieldActionPerformed);
 
         nomeJLabel.setText("Nome:");
@@ -90,8 +118,10 @@ public class ClienteJPanel extends javax.swing.JPanel {
         clienteJScrollPane.setViewportView(clienteJTable);
 
         salvarJButton.setText("Salvar");
+        salvarJButton.addActionListener(this::salvarJButtonActionPerformed);
 
         cancelarJButton.setText("Cancelar");
+        cancelarJButton.addActionListener(this::cancelarJButtonActionPerformed);
 
         editarJButton.setText("Editar");
 
@@ -173,6 +203,19 @@ public class ClienteJPanel extends javax.swing.JPanel {
     private void idJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idJTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_idJTextFieldActionPerformed
+
+    private void salvarJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarJButtonActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_salvarJButtonActionPerformed
+
+    private void cancelarJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarJButtonActionPerformed
+        // TODO add your handling code here:
+        idJTextField.setText("");
+        nomeJTextField.setText("");
+        cpfJFormattedTextField.setText("");
+        telefoneJFormattedTextField.setText("");
+    }//GEN-LAST:event_cancelarJButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

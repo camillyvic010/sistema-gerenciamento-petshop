@@ -15,5 +15,6 @@ public interface ClienteService {
     
     public void salvar(ClienteDTO dto);
     public List<ClienteDTO> buscarTodos();
+    public void deletar(String id);
     
 }
